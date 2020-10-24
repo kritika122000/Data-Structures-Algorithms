@@ -1,0 +1,44 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+class node{
+  public:
+  int data;
+  vector<node*> tree;
+  node(int d,int c){
+      data=d;
+      tree.resize(c);
+  }
+};
+
+
+node* build_generic(){
+    int d,c;
+    cin>>d>>c;
+    node* temp=new node(d,c);
+    for(int i=0;i<c;i++){
+        temp->tree[i]=build_generic();
+    }
+    return temp;
+}
+static int s=0;
+
+void sum(node* root,int k){
+    if(root==NULL) return;
+    
+    if(k==0){
+        s+=root->data;
+    }
+    for(int i=0;i<root->tree.size();i++){
+        sum(root->tree[i],k-1);
+    }
+}
+
+int main(){
+
+        node* head=build_generic();
+        int k ;cin>>k;
+       sum(head,k);
+       cout<<s;
+    
+}
