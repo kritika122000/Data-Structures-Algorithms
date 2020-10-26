@@ -1,0 +1,73 @@
+#include<iostream>
+using namespace std;
+class node{
+	public:
+	int data;
+	node* next;
+	
+	node(int d){
+		data=d;
+		next=NULL;
+	}
+};
+void InsertAtTail(node*&head,int key,node*&tail){
+	node*n=new node(key);
+	if(head==NULL){
+		head=n;
+		tail=n;
+		return;
+	}
+	tail->next=n;
+	tail=n;
+	return;
+}
+void print(node* head){
+	while(head!=NULL){
+		cout<<head->data<<" ";
+		head=head->next;
+	}
+	
+}
+ostream& operator <<(ostream& os,node*head){
+	print(head);
+	return os;
+}
+
+node* reverse_k(node*head,int k)
+{   
+    if(head==NULL || head->next==NULL){
+    	return head;
+	}
+     node*tail=head;
+	int y=k-1;
+	while(y!=0){
+	tail=tail->next;
+	y--;
+	if(tail->next==NULL)
+	break;
+    }
+    node*prev=NULL,*curr=head,*n;
+	node*c=head;
+		while(prev!=tail){
+		n=curr->next;
+		curr->next=prev;
+		prev=curr;
+		curr=n;
+	}
+	c->next=reverse_k(curr,k);
+	return prev;
+}
+
+int main(){
+	node* head=NULL,*tail=NULL;
+	 int n,k;   cin>>n>>k;
+	 int d;  
+	 while(n!=0){
+	 	cin>>d;
+	 	InsertAtTail(head,d,tail);
+	 	n--;
+	 }
+	 node* subhead=reverse_k(head,k);
+	 cout<<subhead;
+	return 0;
+}
